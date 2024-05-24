@@ -91,10 +91,13 @@ contract AlphaFund {
     }
 
     function closeFund() external onlyManager {
+        uint256 cpi = getCpi();
+        uint256 balancePastHurdle = address(this).balance - ((address(this).balance / cpi) * 1e21);
+
         // check if there has been any profit
-        if (address(this).balance > totalDeposited) {
+        if (balancePastHurdle > totalDeposited) {
             // calculate performance fee
-            uint256 profit = address(this).balance - totalDeposited;
+            uint256 profit = balancePastHurdle - totalDeposited;
             uint256 totalPerformanceFee = (profit * performanceFeePercent) / 100;
 
             // transfer performance fee to traders based on allocation
@@ -155,26 +158,54 @@ contract AlphaFund {
         totalDeposited -= amt;
     }
 
-    event Buy(string token, uint256 amtXrp, uint256 amtOther);
+    event Buy(string token, uint256 amtEth, uint256 amtOther);
 
     function buy(string memory token, uint256 amtOther) external onlyWithinLimit onlyTrading {
         uint256 balanceBefore = address(this).balance;
-        // todo: buy other token via XRPL bridge
+        // todo: buy other token via DEX
         uint256 amtSpent = balanceBefore - address(this).balance;
         tradingAllocations[msg.sender] -= amtSpent;
         emit Buy(token, amtSpent, amtOther);
     }
 
-    event Sell(string token, uint256 amtXrp, uint256 amtOther);
+    event Sell(string token, uint256 amtEth, uint256 amtOther);
 
     function sell(string memory token, uint256 amtOther) external onlyTrading {
         uint256 balanceBefore = address(this).balance;
-        // todo: sell other token via XRPL bridge
+        // todo: sell other token via DEX
         uint256 amtRecieved = address(this).balance - balanceBefore;
         tradingAllocations[msg.sender] += amtRecieved;
         emit Sell(token, amtRecieved, amtOther);
     }
 
-    // allow payments of native eXRP to this contract
+    // allow payments of native ETH to this contract
     receive() external payable {}
+
+    /**
+     * get latest CPI value from ChainLink
+     * https://data.chain.link/feeds/ethereum/mainnet/consumer-price-index
+     */
+    function getCpi() public view returns (uint256) {
+        AggregatorV3Interface priceFeed = AggregatorV3Interface(0x9a51192e065ECC6BDEafE5e194ce54702DE4f1f5);
+        (, int256 answer,,,) = priceFeed.latestRoundData();
+        return uint256(answer);
+    }
+}
+
+interface AggregatorV3Interface {
+    function decimals() external view returns (uint8);
+
+    function description() external view returns (string memory);
+
+    function version() external view returns (uint256);
+
+    function getRoundData(uint80 _roundId)
+        external
+        view
+        returns (uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound);
+
+    function latestRoundData()
+        external
+        view
+        returns (uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound);
 }

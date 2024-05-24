@@ -5,6 +5,10 @@ import {Test, console} from "forge-std/Test.sol";
 import {AlphaFund} from "../src/AlphaFund.sol";
 
 contract CounterTest is Test {
+    function setUp() public {
+        vm.createSelectFork(vm.rpcUrl("mainnet"), 19940270);
+    }
+
     function test_OneTrader_OneInvestor() public {
         // Arrange
         address trader = makeAddr("trader");

@@ -44,8 +44,7 @@ The data feed used is: https://data.chain.link/feeds/ethereum/mainnet/consumer-p
 
 
 ## Testnet Deployment
-to add
-
+Scroll Sepolia: https://sepolia.scrollscan.com/address/0xc91fcb9ddd574f70c5c9594d1d0ac76c643a5082
 
 ## Technical Details
 
@@ -53,7 +52,6 @@ This project has been setup using the Foundry project template.
 
 
 ### Run unit tests
-
 
 ```shell
 $ forge test

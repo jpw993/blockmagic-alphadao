@@ -6,9 +6,9 @@
 
 
 ## Presentations
-Pitch video: https://www.youtube.com/watch?v=b_yNMQLSNvE
+Pitch video: https://www.youtube.com/watch?v=CIBj__Ztkqo
 
-Smart contract demo video:
+Smart contract demo video: https://www.youtube.com/watch?v=b_yNMQLSNvE
 
 Slides: https://www.canva.com/design/DAGGJ964go8/CEjADSPTdBgIqc5ty9_f-g/view
 

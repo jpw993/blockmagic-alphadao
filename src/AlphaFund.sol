@@ -70,7 +70,7 @@ contract AlphaFund {
         _;
     }
 
-    function allocateToSubordinate(address subordinate, uint8 amt) external onlyManager {
+    function allocateToSubordinate(address subordinate, uint256 amt) external onlyManager {
         require(tradingAllocations[manager] >= amt, "Cannot allocate more than you have");
         if (tradingAllocations[subordinate] > 0) {
             revert("Subordinate already has allocation");

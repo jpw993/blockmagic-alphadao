@@ -5,8 +5,13 @@
 
 
 
-## Presentation
-to add
+## Presentations
+Pitch video: https://www.youtube.com/watch?v=b_yNMQLSNvE
+
+Smart contract demo video:
+
+Slides: https://www.canva.com/design/DAGGJ964go8/CEjADSPTdBgIqc5ty9_f-g/view
+
 
 ## Short Description
 This project contains a Solidity smart contract for creating, participating in, and managing an on-chain token asset management fund. The fees paid to the investment managers who have the fund are calculated based on the outperformance of the Consumer Price Index (which is provided from the Chainlink data feed).
